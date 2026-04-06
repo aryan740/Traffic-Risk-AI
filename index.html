@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard">
+        <div class="card header-card">
+            <div>
+                <h1>Traffic Risk Intelligence</h1>
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">PREDICTIVE TELEMETRY ENGINE</p>
+            </div>
+            <div style="width: 12px; height: 12px; background: var(--safe); border-radius: 50%; box-shadow: 0 0 0 4px #d1fae5;"></div>
+        </div>
+
+        <div class="card">
+            <h2>Atmospheric & Time</h2>
+            <label>Dominant Weather</label>
+            <select id="weather">
+                <option value="Clear">Clear</option><option value="Rain">Rain</option>
+                <option value="Snow">Snow</option><option value="Fog">Fog</option>
+            </select>
+
+            <div style="display: flex; gap: 1rem;">
+                <div style="flex: 1;"><label>Temp (°F)</label><input type="number" id="temp" value="75"></div>
+                <div style="flex: 1;"><label>Vis (mi)</label><input type="number" id="visibility" value="10"></div>
+            </div>
+
+            <label>Hour of Day (0-23)</label>
+            <input type="number" id="hour" value="14" min="0" max="23">
+            
+            <label>Day of Week</label>
+            <select id="weekday">
+                <option value="0">Monday</option><option value="1">Tuesday</option>
+                <option value="2">Wednesday</option><option value="3">Thursday</option>
+                <option value="4" selected>Friday</option><option value="5">Saturday</option>
+                <option value="6">Sunday</option>
+            </select>
+        </div>
+
+        <div class="card">
+            <h2>Infrastructure</h2>
+            <div class="toggle-row">
+                <label for="junction">Intersection / Junction</label>
+                <input type="checkbox" id="junction">
+            </div>
+            <div class="toggle-row">
+                <label for="signal">Traffic Signal Active</label>
+                <input type="checkbox" id="signal">
+            </div>
+            <div class="toggle-row">
+                <label for="crossing">Pedestrian Crossing</label>
+                <input type="checkbox" id="crossing">
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <div style="flex: 1;"><label>Wind (mph)</label><input type="number" id="wind" value="5"></div>
+                <div style="flex: 1;"><label>Month</label><input type="number" id="month" value="5" min="1" max="12"></div>
+            </div>
+            <input type="hidden" id="humidity" value="50">
+            <input type="hidden" id="stop" value="0">
+
+            <button onclick="analyzeRisk()" style="margin-top: 1rem;">EXECUTE ANALYSIS</button>
+        </div>
+
+        <div class="card result-card">
+            <h2>System Status</h2>
+            <div id="statusBadge" class="status-pill">AWAITING TELEMETRY</div>
+            
+            <div id="riskScore" class="score-display">--%</div>
+            
+            <div class="threat-meter">
+                <div class="segment" id="seg1"></div>
+                <div class="segment" id="seg2"></div>
+                <div class="segment" id="seg3"></div>
+                <div class="segment" id="seg4"></div>
+                <div class="segment" id="seg5"></div>
+            </div>
+
+            <p id="analysisText" class="analysis-text">
+                Enter conditions and execute analysis to query the Random Forest engine.
+            </p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

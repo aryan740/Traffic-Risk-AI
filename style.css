@@ -1,0 +1,92 @@
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+        :root {
+            --bg: #f0f2f5;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #0f172a; /* Sleek dark accent instead of bright blue */
+            --border: #e2e8f0;
+            --danger: #e11d48; /* Matte crimson */
+            --safe: #059669; /* Matte emerald */
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Bento Box Cards */
+        .card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: transform 0.2s;
+        }
+        
+        .header-card { grid-column: span 3; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem;}
+        .col-span-2 { grid-column: span 2; }
+        
+        h1, h2, h3 { margin: 0; }
+        h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
+        h2 { font-size: 1.1rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; }
+
+        label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+        
+        /* Modern Inputs */
+        input[type="number"], select {
+            width: 100%; padding: 0.8rem 1rem;
+            background: var(--bg); border: 2px solid transparent;
+            border-radius: 12px; font-family: inherit; font-size: 1rem;
+            font-weight: 600; color: var(--text-main);
+            margin-bottom: 1.2rem; box-sizing: border-box;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--text-muted); background: var(--surface); }
+
+        /* Sleek Checkboxes */
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg); border-radius: 12px; margin-bottom: 0.8rem;}
+        .toggle-row label { margin: 0; cursor: pointer; }
+        input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; }
+
+        /* Action Button */
+        button {
+            width: 100%; padding: 1.2rem;
+            background: var(--accent); color: white;
+            border: none; border-radius: 16px;
+            font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        button:hover { background: #334155; transform: scale(0.98); }
+
+        /* Result Matrix */
+        .result-card { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #0f172a; color: white;}
+        .result-card h2 { color: #94a3b8; }
+        .score-display { font-size: 4.5rem; font-weight: 800; line-height: 1; margin: 1rem 0; letter-spacing: -2px;}
+        
+        .status-pill {
+            padding: 0.5rem 1.5rem; border-radius: 30px;
+            font-weight: 700; font-size: 0.9rem; letter-spacing: 1px;
+            background: rgba(255,255,255,0.1); margin-bottom: 2rem;
+        }
+
+        /* Segmented Threat Meter */
+        .threat-meter { width: 100%; display: flex; gap: 4px; height: 12px; margin-bottom: 1.5rem; }
+        .segment { flex: 1; background: rgba(255,255,255,0.1); border-radius: 6px; transition: 0.3s; }
+        
+        .analysis-text { font-size: 0.95rem; color: #94a3b8; line-height: 1.6; }
