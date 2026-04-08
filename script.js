@@ -18,7 +18,7 @@
             };
 
             try {
-                const response = await fetch('https://traffic-risk-ai-1.onrender.com/predict', {
+                const response = await fetch('https://aryan7004-traffic-risk-api.hf.space/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
