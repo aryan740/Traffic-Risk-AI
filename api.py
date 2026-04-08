@@ -34,7 +34,7 @@ class TrafficData(BaseModel):
     Weather: str
 
 # THE FIX: The Health Check Endpoint for Render
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def health_check():
     return {"status": "Engine is alive and breathing"}
 
