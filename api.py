@@ -33,6 +33,11 @@ class TrafficData(BaseModel):
     Stop: int
     Weather: str
 
+# THE FIX: The Health Check Endpoint for Render
+@app.get("/")
+def health_check():
+    return {"status": "Engine is alive and breathing"}
+
 @app.post("/predict")
 def predict_severity(data: TrafficData):
     # 1. Create a blank dataframe with 0.0s so it accepts decimal coordinates
@@ -51,8 +56,7 @@ def predict_severity(data: TrafficData):
     df.at[0, 'Crossing'] = data.Crossing
     df.at[0, 'Stop'] = data.Stop
     
-    # 3. THE FIX: Inject realistic baseline data for missing GPS columns
-    # If the model expects these columns, we feed it a California highway baseline instead of the middle of the ocean
+    # 3. Inject realistic baseline data for missing GPS columns
     if 'Start_Lat' in df.columns:
         df.at[0, 'Start_Lat'] = 36.77 
     if 'Start_Lng' in df.columns:
