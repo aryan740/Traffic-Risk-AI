@@ -1,15 +1,18 @@
-# Start with a standard Python environment
 FROM python:3.10
 
-# Set the working directory
+# Hugging Face requires a non-root user
+RUN useradd -m -u 1000 user
+USER user
+ENV PATH="/home/user/.local/bin:$PATH"
+
 WORKDIR /code
 
-# Copy the requirements and install them
-COPY ./requirements.txt /code/requirements.txt
+# Copy and install dependencies securely
+COPY --chown=user ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Copy your actual code and models into the container
-COPY . /code
+COPY --chown=user . /code
 
-# Hugging Face REQUIRES the server to run on port 7860
+# Boot the server on HF's mandatory port
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]
