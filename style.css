@@ -1,92 +1,386 @@
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+/* --- Professional Color Palette & CSS Variables --- */
+:root {
+    --bg-main: #0f172a;        /* Slate 900 - Deep Background */
+    --card-bg: #1e293b;        /* Slate 800 - Card Background */
+    --card-border: #334155;    /* Slate 700 */
+    --text-primary: #f1f5f9;  /* Slate 100 */
+    --text-secondary: #94a3b8;/* Slate 400 */
+    
+    --accent-ai: #38bdf8;      /* Sky 400 - AI/Tech Blue */
+    --accent-glow: rgba(56, 189, 248, 0.3);
+    
+    --warning: #f59e0b;        /* Amber 500 - Caution/Signals */
+    --danger: #ef4444;         /* Red 500 - High Risk */
+    --success: #10b981;        /* Emerald 500 - Low Risk */
+    
+    --ease: cubic-bezier(0.23, 1, 0.32, 1);
+    --font-family: 'Inter', sans-serif;
+}
 
-        :root {
-            --bg: #f0f2f5;
-            --surface: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --accent: #0f172a; /* Sleek dark accent instead of bright blue */
-            --border: #e2e8f0;
-            --danger: #e11d48; /* Matte crimson */
-            --safe: #059669; /* Matte emerald */
-        }
+/* --- Base Styles --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
-            padding: 2rem;
-            display: flex;
-            justify-content: center;
-        }
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    overflow-x: hidden;
+    line-height: 1.5;
+}
 
-        .dashboard {
-            max-width: 1200px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
+/* --- Themed Background Animation (Subtle Traffic Feel) --- */
+.area{
+    background: var(--bg-main);  
+    width: 100%;
+    height:100vh;
+    position: fixed;
+    z-index: -1;
+}
 
-        /* Bento Box Cards */
-        .card {
-            background: var(--surface);
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(0,0,0,0.02);
-            transition: transform 0.2s;
-        }
-        
-        .header-card { grid-column: span 3; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem;}
-        .col-span-2 { grid-column: span 2; }
-        
-        h1, h2, h3 { margin: 0; }
-        h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
-        h2 { font-size: 1.1rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; }
+.circles{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 
-        label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
-        
-        /* Modern Inputs */
-        input[type="number"], select {
-            width: 100%; padding: 0.8rem 1rem;
-            background: var(--bg); border: 2px solid transparent;
-            border-radius: 12px; font-family: inherit; font-size: 1rem;
-            font-weight: 600; color: var(--text-main);
-            margin-bottom: 1.2rem; box-sizing: border-box;
-            transition: all 0.2s;
-        }
-        input:focus, select:focus { outline: none; border-color: var(--text-muted); background: var(--surface); }
+.circles li{
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(56, 189, 248, 0.1); /* Sky blue glow nodes */
+    animation: animate 25s linear infinite;
+    bottom: -150px;
+    border-radius: 50%;
+}
 
-        /* Sleek Checkboxes */
-        .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg); border-radius: 12px; margin-bottom: 0.8rem;}
-        .toggle-row label { margin: 0; cursor: pointer; }
-        input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; }
+@keyframes animate {
+    0%{ transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
+    100%{ transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+}
+/* Random sizes for the animation circles */
+.circles li:nth-child(1){ left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+.circles li:nth-child(2){ left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+.circles li:nth-child(3){ left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+/* ... (Truncated for brevity, just makes nodes move) ... */
 
-        /* Action Button */
-        button {
-            width: 100%; padding: 1.2rem;
-            background: var(--accent); color: white;
-            border: none; border-radius: 16px;
-            font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px;
-            cursor: pointer; transition: all 0.2s;
-        }
-        button:hover { background: #334155; transform: scale(0.98); }
+/* --- Main Layout --- */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
 
-        /* Result Matrix */
-        .result-card { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #0f172a; color: white;}
-        .result-card h2 { color: #94a3b8; }
-        .score-display { font-size: 4.5rem; font-weight: 800; line-height: 1; margin: 1rem 0; letter-spacing: -2px;}
-        
-        .status-pill {
-            padding: 0.5rem 1.5rem; border-radius: 30px;
-            font-weight: 700; font-size: 0.9rem; letter-spacing: 1px;
-            background: rgba(255,255,255,0.1); margin-bottom: 2rem;
-        }
+/* --- Reusable Bento Box Card Styling --- */
+.bento-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
+}
 
-        /* Segmented Threat Meter */
-        .threat-meter { width: 100%; display: flex; gap: 4px; height: 12px; margin-bottom: 1.5rem; }
-        .segment { flex: 1; background: rgba(255,255,255,0.1); border-radius: 6px; transition: 0.3s; }
-        
-        .analysis-text { font-size: 0.95rem; color: #94a3b8; line-height: 1.6; }
+.bento-card:hover {
+    border-color: rgba(56, 189, 248, 0.5);
+    transform: translateY(-2px);
+}
+
+.bento-card h2 {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.bento-card h2 i {
+    color: var(--accent-ai);
+}
+
+/* --- 1. Header Area --- */
+.main-header {
+    text-align: center;
+    border: 2px solid var(--card-border);
+}
+
+.logo-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.main-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.highlight {
+    color: var(--accent-ai);
+    text-shadow: 0 0 15px var(--accent-glow);
+}
+
+.warning-icon {
+    font-size: 2.5rem;
+    color: var(--warning);
+    animation: pulse-warning 2s infinite;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* --- 2. Main Input Grid Layout --- */
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+/* Individual box visual tweaks */
+.group-action {
+    grid-column: span 3;
+    padding: 1rem;
+    background: rgba(56, 189, 248, 0.05);
+}
+
+/* --- Form Input Styling --- */
+.input-group {
+    margin-bottom: 1.25rem;
+}
+
+.input-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.half { width: 50%; }
+
+.input-group label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Themed Input Fields */
+input[type="number"], 
+input[type="text"],
+select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #1a2233; /* Darker slate */
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent-ai);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Placeholder color */
+::placeholder { color: #52617a; opacity: 1; }
+
+/* Infrastructure Toggle Styling (Custom Checkboxes) */
+.toggle-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.toggle-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1a2233;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+}
+
+.toggle-item label {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Make checkboxes look like traffic toggles */
+input[type="checkbox"] {
+    accent-color: var(--warning);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* --- Action Button Styling --- */
+button#executeBtn {
+    width: 100%;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); /* Blue gradient */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), filter 0.2s var(--ease);
+    box-shadow: 0 4px 14px 0 rgba(2, 132, 199, 0.3);
+}
+
+button#executeBtn:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 6px 20px 0 rgba(2, 132, 199, 0.5);
+}
+
+button#executeBtn:active {
+    transform: scale(0.98);
+}
+
+/* Processing State for Button */
+button#executeBtn.processing {
+    background: #475569; /* Gray */
+    pointer-events: none;
+    animation: pulse-processing 1.5s infinite;
+}
+
+/* --- 3. Results Panel Styling --- */
+#resultPanel {
+    margin-top: 1rem;
+    border: 2px solid var(--card-border);
+    opacity: 1;
+    transition: opacity 0.5s var(--ease);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#resultPanel.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* Score Gauge */
+.score-display {
+    margin: 1.5rem 0;
+}
+
+.gauge-container {
+    width: 250px;
+    height: 30px;
+    background-color: #1a2233;
+    border-radius: 15px;
+    border: 1px solid var(--card-border);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.gauge-bar {
+    height: 100%;
+    width: 0%; /* Dynamic */
+    background: linear-gradient(90deg, var(--success) 0%, var(--warning) 60%, var(--danger) 100%);
+    border-radius: 15px;
+    transition: width 1s ease-out;
+}
+
+.score-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 800;
+    font-size: 1rem;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Severity Badge */
+.status-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background-color: #475569; /* Default Gray */
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+/* Severe color coding */
+.status-badge.minor { background-color: rgba(16, 185, 129, 0.2); color: var(--success); border: 1px solid var(--success); }
+.status-badge.severe { background-color: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); animation: pulse-danger 2s infinite;}
+
+#severityText {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* --- Footer --- */
+.credits {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #475569;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--card-border);
+}
+
+/* --- Animations --- */
+@keyframes pulse-warning {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); color: #fbbf24; }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-processing {
+    0% { background-color: #475569; }
+    50% { background-color: #64748b; }
+    100% { background-color: #475569; }
+}
+
+@keyframes pulse-danger {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* --- Responsive Tweak --- */
+@media (max-width: 900px) {
+    .input-grid { grid-template-columns: 1fr; }
+    .group-action { grid-column: span 1; }
+    .main-header h1 { font-size: 1.8rem; }
+}

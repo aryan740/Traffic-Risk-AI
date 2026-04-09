@@ -3,89 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Intelligence</title>
+    <title>AI Traffic Risk Intelligence | aryan740</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
+    <div class="area">
+        <ul class="circles">
+            <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        </ul>
+    </div >
 
-    <div class="dashboard">
-        <div class="card header-card">
-            <div>
-                <h1>Traffic Risk Intelligence</h1>
-                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">PREDICTIVE TELEMETRY ENGINE</p>
+    <div class="dashboard-container">
+        
+        <header class="main-header bento-card">
+            <div class="logo-area">
+                <i class="fas fa-traffic-light warning-icon"></i>
+                <h1>Traffic Risk <span class="highlight">Intelligence</span></h1>
             </div>
-            <div style="width: 12px; height: 12px; background: var(--safe); border-radius: 50%; box-shadow: 0 0 0 4px #d1fae5;"></div>
-        </div>
+            <p class="subtitle">AI-powered predictive analysis engine based on US accident telemetry.</p>
+        </header>
 
-        <div class="card">
-            <h2>Atmospheric & Time</h2>
-            <label>Dominant Weather</label>
-            <select id="weather">
-                <option value="Clear">Clear</option><option value="Rain">Rain</option>
-                <option value="Snow">Snow</option><option value="Fog">Fog</option>
-            </select>
-
-            <div style="display: flex; gap: 1rem;">
-                <div style="flex: 1;"><label>Temp (°F)</label><input type="number" id="temp" value="75"></div>
-                <div style="flex: 1;"><label>Vis (mi)</label><input type="number" id="visibility" value="10"></div>
-            </div>
-
-            <label>Hour of Day (0-23)</label>
-            <input type="number" id="hour" value="14" min="0" max="23">
+        <main class="input-grid">
             
-            <label>Day of Week</label>
-            <select id="weekday">
-                <option value="0">Monday</option><option value="1">Tuesday</option>
-                <option value="2">Wednesday</option><option value="3">Thursday</option>
-                <option value="4" selected>Friday</option><option value="5">Saturday</option>
-                <option value="6">Sunday</option>
-            </select>
-        </div>
+            <section class="bento-card group-temporal">
+                <h2><i class="fas fa-calendar-alt"></i> Temporal Factors</h2>
+                <div class="input-group">
+                    <label>Hour (0-23)</label>
+                    <input type="number" id="Hour" placeholder="14" min="0" max="23">
+                </div>
+                <div class="input-group">
+                    <label>Weekday (0-6)</label>
+                    <select id="Weekday">
+                        <option value="0">Sunday</option>
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                        <option value="6">Saturday</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Month (1-12)</label>
+                    <input type="number" id="Month" placeholder="10" min="1" max="12">
+                </div>
+            </section>
 
-        <div class="card">
-            <h2>Infrastructure</h2>
-            <div class="toggle-row">
-                <label for="junction">Intersection / Junction</label>
-                <input type="checkbox" id="junction">
-            </div>
-            <div class="toggle-row">
-                <label for="signal">Traffic Signal Active</label>
-                <input type="checkbox" id="signal">
-            </div>
-            <div class="toggle-row">
-                <label for="crossing">Pedestrian Crossing</label>
-                <input type="checkbox" id="crossing">
-            </div>
+            <section class="bento-card group-weather">
+                <h2><i class="fas fa-cloud-sun"></i> Atmospheric Conditions</h2>
+                <div class="input-row">
+                    <div class="input-group half">
+                        <label>Temp (F)</label>
+                        <input type="number" id="Temperature" placeholder="72.5">
+                    </div>
+                    <div class="input-group half">
+                        <label>Visibility (mi)</label>
+                        <input type="number" id="Visibility" placeholder="10.0">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group half">
+                        <label>Wind (mph)</label>
+                        <input type="number" id="Wind_Speed" placeholder="5.2">
+                    </div>
+                    <div class="input-group half">
+                        <label>Humidity (%)</label>
+                        <input type="number" id="Humidity" placeholder="65">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Overall Weather Condition</label>
+                    <input type="text" id="Weather" placeholder="Light Rain / Clear / Overcast">
+                </div>
+            </section>
+
+            <section class="bento-card group-infra">
+                <h2><i class="fas fa-road"></i> Road Infrastructure</h2>
+                <div class="toggle-grid">
+                    <div class="toggle-item">
+                        <label for="Junction">Junction</label>
+                        <input type="checkbox" id="Junction">
+                    </div>
+                    <div class="toggle-item">
+                        <label for="Traffic_Signal">Traffic Signal</label>
+                        <input type="checkbox" id="Traffic_Signal">
+                    </div>
+                    <div class="toggle-item">
+                        <label for="Crossing">Crossing</label>
+                        <input type="checkbox" id="Crossing">
+                    </div>
+                    <div class="toggle-item">
+                        <label for="Stop">Stop Sign</label>
+                        <input type="checkbox" id="Stop">
+                    </div>
+                </div>
+            </section>
+
+            <section class="bento-card group-action">
+                <button id="executeBtn">
+                    <i class="fas fa-brain"></i>
+                    <span>Execute Analysis</span>
+                </button>
+            </section>
+
+        </main>
+
+        <aside id="resultPanel" class="result-card bento-card hidden">
+            <h2>Analysis Report</h2>
             
-            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                <div style="flex: 1;"><label>Wind (mph)</label><input type="number" id="wind" value="5"></div>
-                <div style="flex: 1;"><label>Month</label><input type="number" id="month" value="5" min="1" max="12"></div>
-            </div>
-            <input type="hidden" id="humidity" value="50">
-            <input type="hidden" id="stop" value="0">
-
-            <button onclick="analyzeRisk()" style="margin-top: 1rem;">EXECUTE ANALYSIS</button>
-        </div>
-
-        <div class="card result-card">
-            <h2>System Status</h2>
-            <div id="statusBadge" class="status-pill">AWAITING TELEMETRY</div>
-            
-            <div id="riskScore" class="score-display">--%</div>
-            
-            <div class="threat-meter">
-                <div class="segment" id="seg1"></div>
-                <div class="segment" id="seg2"></div>
-                <div class="segment" id="seg3"></div>
-                <div class="segment" id="seg4"></div>
-                <div class="segment" id="seg5"></div>
+            <div class="score-display">
+                <div class="gauge-container">
+                    <div class="gauge-bar" id="gaugeBar"></div>
+                    <span class="score-text" id="riskScore">00.00%</span>
+                </div>
+                <p>Predicted Risk Probability</p>
             </div>
 
-            <p id="analysisText" class="analysis-text">
-                Enter conditions and execute analysis to query the Random Forest engine.
-            </p>
-        </div>
+            <div class="severity-display">
+                <span class="status-badge" id="severityBadge">Pending</span>
+                <p id="severityText">Class 1: Minor Risk (Likely Property Damage)</p>
+            </div>
+        </aside>
+
+        <footer class="credits">
+            Developer: aryan740 | Associated with SRMIST
+        </footer>
+
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
