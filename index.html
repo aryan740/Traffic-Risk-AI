@@ -3,58 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Risk Engine</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Traffic Intelligence</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+        :root {
+            --bg: #f0f2f5;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #0f172a; /* Sleek dark accent instead of bright blue */
+            --border: #e2e8f0;
+            --danger: #e11d48; /* Matte crimson */
+            --safe: #059669; /* Matte emerald */
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Bento Box Cards */
+        .card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: transform 0.2s;
+        }
+        
+        .header-card { grid-column: span 3; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem;}
+        .col-span-2 { grid-column: span 2; }
+        
+        h1, h2, h3 { margin: 0; }
+        h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
+        h2 { font-size: 1.1rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; }
+
+        label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+        
+        /* Modern Inputs */
+        input[type="number"], select {
+            width: 100%; padding: 0.8rem 1rem;
+            background: var(--bg); border: 2px solid transparent;
+            border-radius: 12px; font-family: inherit; font-size: 1rem;
+            font-weight: 600; color: var(--text-main);
+            margin-bottom: 1.2rem; box-sizing: border-box;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--text-muted); background: var(--surface); }
+
+        /* Sleek Checkboxes */
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg); border-radius: 12px; margin-bottom: 0.8rem;}
+        .toggle-row label { margin: 0; cursor: pointer; }
+        input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; }
+
+        /* Action Button */
+        button {
+            width: 100%; padding: 1.2rem;
+            background: var(--accent); color: white;
+            border: none; border-radius: 16px;
+            font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        button:hover { background: #334155; transform: scale(0.98); }
+
+        /* Result Matrix */
+        .result-card { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #0f172a; color: white;}
+        .result-card h2 { color: #94a3b8; }
+        .score-display { font-size: 4.5rem; font-weight: 800; line-height: 1; margin: 1rem 0; letter-spacing: -2px;}
+        
+        .status-pill {
+            padding: 0.5rem 1.5rem; border-radius: 30px;
+            font-weight: 700; font-size: 0.9rem; letter-spacing: 1px;
+            background: rgba(255,255,255,0.1); margin-bottom: 2rem;
+        }
+
+        /* Segmented Threat Meter */
+        .threat-meter { width: 100%; display: flex; gap: 4px; height: 12px; margin-bottom: 1.5rem; }
+        .segment { flex: 1; background: rgba(255,255,255,0.1); border-radius: 6px; transition: 0.3s; }
+        
+        .analysis-text { font-size: 0.95rem; color: #94a3b8; line-height: 1.6; }
+
+    </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <header class="header">
-            <div class="status-indicator"></div>
-            <h1>Traffic Risk AI</h1>
-            <p>Predictive severity analysis based on live telemetry.</p>
-        </header>
 
-        <main class="bento-grid">
-            <div class="card form-card">
-                <form id="predictionForm">
-                    <div class="input-group">
-                        <h3>Environment Data</h3>
-                        <div class="grid-2">
-                            <input type="number" id="Hour" placeholder="Hour (0-23)" required>
-                            <input type="number" id="Weekday" placeholder="Weekday (0-6)" required>
-                            <input type="number" id="Month" placeholder="Month (1-12)" required>
-                            <input type="number" step="0.1" id="Temperature" placeholder="Temp (°F)" required>
-                            <input type="number" step="0.1" id="Visibility" placeholder="Visibility (mi)" required>
-                            <input type="number" step="0.1" id="Wind_Speed" placeholder="Wind Speed (mph)" required>
-                        </div>
-                        <input type="text" id="Weather" class="full-width" placeholder="Weather (e.g., Clear, Rain, Snow)" required>
-                    </div>
+    <div class="dashboard">
+        <div class="card header-card">
+            <div>
+                <h1>Traffic Risk Intelligence</h1>
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">PREDICTIVE TELEMETRY ENGINE</p>
+            </div>
+            <div style="width: 12px; height: 12px; background: var(--safe); border-radius: 50%; box-shadow: 0 0 0 4px #d1fae5;"></div>
+        </div>
 
-                    <div class="input-group">
-                        <h3>Infrastructure Presence (1 = Yes, 0 = No)</h3>
-                        <div class="grid-4">
-                            <input type="number" id="Junction" placeholder="Junction" min="0" max="1" required>
-                            <input type="number" id="Traffic_Signal" placeholder="Signal" min="0" max="1" required>
-                            <input type="number" id="Crossing" placeholder="Crossing" min="0" max="1" required>
-                            <input type="number" id="Stop" placeholder="Stop" min="0" max="1" required>
-                        </div>
-                    </div>
+        <div class="card">
+            <h2>Atmospheric & Time</h2>
+            <label>Dominant Weather</label>
+            <select id="weather">
+                <option value="Clear">Clear</option><option value="Rain">Rain</option>
+                <option value="Snow">Snow</option><option value="Fog">Fog</option>
+            </select>
 
-                    <button type="submit" id="submitBtn" class="primary-btn">Execute Analysis</button>
-                </form>
+            <div style="display: flex; gap: 1rem;">
+                <div style="flex: 1;"><label>Temp (°F)</label><input type="number" id="temp" value="75"></div>
+                <div style="flex: 1;"><label>Vis (mi)</label><input type="number" id="visibility" value="10"></div>
             </div>
 
-            <div class="card result-card" id="resultCard">
-                <div class="result-content">
-                    <h3 id="resultTitle">System Ready</h3>
-                    <div class="score-display">
-                        <span id="riskScore">--</span><span class="percent">%</span>
-                    </div>
-                    <p id="severityLabel">Awaiting telemetry data...</p>
-                </div>
+            <label>Hour of Day (0-23)</label>
+            <input type="number" id="hour" value="14" min="0" max="23">
+            
+            <label>Day of Week</label>
+            <select id="weekday">
+                <option value="0">Monday</option><option value="1">Tuesday</option>
+                <option value="2">Wednesday</option><option value="3">Thursday</option>
+                <option value="4" selected>Friday</option><option value="5">Saturday</option>
+                <option value="6">Sunday</option>
+            </select>
+        </div>
+
+        <div class="card">
+            <h2>Infrastructure</h2>
+            <div class="toggle-row">
+                <label for="junction">Intersection / Junction</label>
+                <input type="checkbox" id="junction">
             </div>
-        </main>
+            <div class="toggle-row">
+                <label for="signal">Traffic Signal Active</label>
+                <input type="checkbox" id="signal">
+            </div>
+            <div class="toggle-row">
+                <label for="crossing">Pedestrian Crossing</label>
+                <input type="checkbox" id="crossing">
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <div style="flex: 1;"><label>Wind (mph)</label><input type="number" id="wind" value="5"></div>
+                <div style="flex: 1;"><label>Month</label><input type="number" id="month" value="5" min="1" max="12"></div>
+            </div>
+            <input type="hidden" id="humidity" value="50">
+            <input type="hidden" id="stop" value="0">
+
+            <button onclick="analyzeRisk()" style="margin-top: 1rem;">EXECUTE ANALYSIS</button>
+        </div>
+
+        <div class="card result-card">
+            <h2>System Status</h2>
+            <div id="statusBadge" class="status-pill">AWAITING TELEMETRY</div>
+            
+            <div id="riskScore" class="score-display">--%</div>
+            
+            <div class="threat-meter">
+                <div class="segment" id="seg1"></div>
+                <div class="segment" id="seg2"></div>
+                <div class="segment" id="seg3"></div>
+                <div class="segment" id="seg4"></div>
+                <div class="segment" id="seg5"></div>
+            </div>
+
+            <p id="analysisText" class="analysis-text">
+                Enter conditions and execute analysis to query the Random Forest engine.
+            </p>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        async function analyzeRisk() {
+            const btn = document.querySelector('button');
+            btn.innerText = "PROCESSING...";
+            
+            const payload = {
+                Hour: parseInt(document.getElementById('hour').value),
+                Weekday: parseInt(document.getElementById('weekday').value),
+                Month: parseInt(document.getElementById('month').value),
+                Temperature: parseFloat(document.getElementById('temp').value),
+                Visibility: parseFloat(document.getElementById('visibility').value),
+                Wind_Speed: parseFloat(document.getElementById('wind').value),
+                Humidity: parseFloat(document.getElementById('humidity').value),
+                Junction: document.getElementById('junction').checked ? 1 : 0,
+                Traffic_Signal: document.getElementById('signal').checked ? 1 : 0,
+                Crossing: document.getElementById('crossing').checked ? 1 : 0,
+                Stop: parseInt(document.getElementById('stop').value),
+                Weather: document.getElementById('weather').value
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                const score = data.risk_score;
+                
+                document.getElementById('riskScore').innerText = Math.round(score) + '%';
+                
+                const badge = document.getElementById('statusBadge');
+                const text = document.getElementById('analysisText');
+                
+                // Reset meter
+                for(let i=1; i<=5; i++) document.getElementById(`seg${i}`).style.background = 'rgba(255,255,255,0.1)';
+
+                if (data.severity_class === 1 || score >= 50) {
+                    badge.innerText = "CRITICAL RISK";
+                    badge.style.color = "#ffe4e6"; badge.style.background = "var(--danger)";
+                    document.getElementById('riskScore').style.color = "#fda4af"; // Soft red text
+                    text.innerHTML = "High probability of severe traffic disruption. Visibility and temporal alignment strongly correlate with historical fatal incidents.";
+                    
+                    // Fill meter red based on score
+                    let segments = Math.ceil((score / 100) * 5);
+                    for(let i=1; i<=segments; i++) document.getElementById(`seg${i}`).style.background = 'var(--danger)';
+                } else {
+                    badge.innerText = "MINOR INCIDENT";
+                    badge.style.color = "#d1fae5"; badge.style.background = "var(--safe)";
+                    document.getElementById('riskScore').style.color = "#6ee7b7"; // Soft green text
+                    text.innerHTML = "Conditions align with low-impact fender-bender profiles. Weather data does not indicate systemic hazard.";
+                    
+                    // Fill meter green based on score
+                    let segments = Math.max(1, Math.ceil((score / 100) * 5));
+                    for(let i=1; i<=segments; i++) document.getElementById(`seg${i}`).style.background = 'var(--safe)';
+                }
+
+            } catch (error) {
+                alert("Backend offline. Start Uvicorn server.");
+            } finally {
+                btn.innerText = "EXECUTE ANALYSIS";
+            }
+        }
+    </script>
 </body>
 </html>
